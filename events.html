@@ -15,11 +15,14 @@
     <link rel="stylesheet" href="events.css">
     <link rel="stylesheet" href="font/font-euclid.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js">
     <title>Events | CSI</title>
 </head>
 <body>
   <header class="csi">
     <nav class="navbar navbar-light">
+      <div class="actual-navbar">
+      <a href=""><img id="logo" src="images/favicon.png" alt=""></a>
         <ul>
             
             
@@ -29,14 +32,38 @@
             <li class="nav-item"><a href="">News</a></li>
 
         </ul>
-        
+      </div>
     </nav>
     <h1>EVENTS</h1>
     
 
 </header>
   <div class="wrapper">
-    
+    <div class="custom-select">
+    <select id="month">
+      <option value="hide">-- Month --</option>
+      <option value="january" rel="icon-temperature">January</option>
+      <option value="february">February</option>
+      <option value="march">March</option>
+      <option value="april">April</option>
+      <option value="may">May</option>
+      <option value="june">June</option>
+      <option value="july">July</option>
+      <option value="august">August</option>
+      <option value="september" selected>September</option>
+      <option value="october">October</option>
+      <option value="november">November</option>
+      <option value="december">December</option>
+  </select> 
+  
+  <select id="year">
+      <option value="hide">-- Year --</option>
+      <option value="2020">2020</option>
+      <option value="2021" selected>2021</option>
+      <option value="2022">2022</option>
+      
+  </select>
+</div>
    <div class="col-sm-12">
    <div class="box-container">
 	<div class="box-item">
@@ -76,6 +103,10 @@
 	</div>
     </div>
     </div>
+    <div class = "center">
+      <a href="#"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></i></a>
+      <a href="#"><i class="fas fa-arrow-alt-circle-right fa-2x"></i></i></a>
+    </div>
     <!-- <section>
     <div class="row">
       
@@ -87,7 +118,9 @@
     </div>
     </div>
   </section> -->
+
   </div>
+  <button class="scroll-top"><a class="button scrollable" href="#top"><i class="fa fa-chevron-up fa-2x"></i></a></button>
   <footer>
     <div class="test">
       <div class="horizontal-bar"></div>
@@ -174,5 +207,83 @@
       Copyright &#169 2021 by CSI RVITM, All rights reserved.
     </div>
   </footer>
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+  <script>
+    $("select").each(function () {
+  var $this = $(this),
+    numberOfOptions = $(this).children("option").length;
+
+  $this.addClass("select-hidden");
+  $this.wrap('<div class="select"></div>');
+  $this.after('<div class="select-styled"></div>');
+
+  var $styledSelect = $this.next("div.select-styled");
+  $styledSelect.text($this.children("option").eq(0).text());
+
+  var $list = $("<ul />", {
+    class: "select-options"
+  }).insertAfter($styledSelect);
+
+  for (var i = 0; i < numberOfOptions; i++) {
+    $("<li />", {
+      text: $this.children("option").eq(i).text(),
+      rel: $this.children("option").eq(i).val()
+    }).appendTo($list);
+  }
+
+  var $listItems = $list.children("li");
+
+  $styledSelect.click(function (e) {
+    e.stopPropagation();
+    $("div.select-styled.active")
+      .not(this)
+      .each(function () {
+        $(this).removeClass("active").next("ul.select-options").hide();
+      });
+    $(this).toggleClass("active").next("ul.select-options").toggle();
+  });
+
+  $listItems.click(function (e) {
+    e.stopPropagation();
+    $styledSelect.text($(this).text()).removeClass("active");
+    $this.val($(this).attr("rel"));
+    $list.hide();
+    //console.log($this.val());
+  });
+
+  $(document).click(function () {
+    $styledSelect.removeClass("active");
+    $list.hide();
+  });
+}); 
+  </script>
+  <script>
+    $(function() {$('body').on('click', 'a.scrollable', function(event) {
+  var $anchor = $(this);
+  $('html, body').stop().animate({scrollTop: $($anchor.attr('href')).offset().top},1500,'easeInOutExpo');
+  event.preventDefault();
+  });
+});
+
+// Closes the Responsive Menu on Menu Item Click
+$('.navbar-collapse ul li a').click(function() {
+  $(".navbar-collapse").collapse('hide');});
+
+// Hides the scroll up button at top.
+$(window).scroll(function() {
+
+    if ($(this).scrollTop()>0)
+     {
+        $('.scroll-top').fadeIn();
+     }
+    else
+     {
+      $('.scroll-top').fadeOut();
+     }
+ });
+  </script>
 </body>
 </html>
